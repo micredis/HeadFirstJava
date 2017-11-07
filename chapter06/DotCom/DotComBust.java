@@ -7,7 +7,12 @@ public class SimpleDotComGame {
 	public static void main(String[] args) throws IOException {
 		int numOfGuesses = 0;
 		GameHelper helper = new GameHelper();
-		SimpleDotCom theDotCom = new SimpleDotCom();
+		SimpleDotCom theDotCom1 = new SimpleDotCom();
+		SimpleDotCom theDotCom2 = new SimpleDotCom();
+		SimpleDotCom theDotCom3 = new SimpleDotCom();
+		theDotCom1.setName("Go2.com");
+		theDotCom2.setName("Pets.com");
+		theDotCom3.setName("AskMe.com");
 		int randomNum = (int) (Math.random() * 5); //(int) (Math.random() * (4 - 0 + 1) + 0) --> [0; 4]
 		int[] locations = {randomNum, randomNum + 1, randomNum + 2};
 		theDotCom.setLocationCells(locations);
