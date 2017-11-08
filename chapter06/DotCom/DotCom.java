@@ -3,14 +3,13 @@ import java.util.ArrayList;
 public class DotCom {
 	ArrayList<String> locationCells;
 	String name;
-	//int numOfHits = 0;
 
 	public void setLocationCells(ArrayList<String> loc) {
 		locationCells = loc;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String n) {
+		name = n;
 	}
 
 	public String checkYourself(String userInput) {
@@ -20,11 +19,11 @@ public class DotCom {
 			locationCells.remove(index);
 			if (locationCells.isEmpty()) {
 				result = "kill";
+				System.out.println("Ouch! You sunk " + name + " :(")
 			} else {
 				result = "hit";
 			}
 		}
-
 		return result;
 	}
 }
