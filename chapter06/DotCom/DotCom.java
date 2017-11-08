@@ -19,7 +19,7 @@ public class DotCom {
 			locationCells.remove(index);
 			if (locationCells.isEmpty()) {
 				result = "kill";
-				System.out.println("Ouch! You sunk " + name + " :(")
+				System.out.println("Ouch! You sunk " + name + " :(");
 			} else {
 				result = "hit";
 			}
