@@ -49,7 +49,7 @@ public class GameHelper {
 					if (location >= gridSize) {				// out of bounds - 'bottom'
 						success = false;					// failure
 					}
-					if (x > 0 && (location % gridLength == 0)) {	// out of bounds - right edge
+					if (x > 0 & (location % gridLength == 0)) {	// out of bounds - right edge
 						success = false;							// failure
 					}
 				} else {									// found already used location
