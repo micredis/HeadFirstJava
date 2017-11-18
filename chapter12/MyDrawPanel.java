@@ -19,5 +19,17 @@ public class MyDrawPanel extends JPanel {
 
 		Image image = new ImageIcon("lab511a.jpg").getImage();
 		g.drawImage(image, 120, 150, this);
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		red = (int) (Math.random() * 255);
+		green = (int) (Math.random() * 255);
+		blue = (int) (Math.random() * 255);
+
+		Color endColor = new Color(red, green, blue);
+
+		GradientPaint gradient = new GradientPaint(70, 70, randomColor, 150, 150, endColor);
+		g2d.setPaint(gradient);
+		g2d.fillOval(70, 70, 100, 100);
 	}
 }

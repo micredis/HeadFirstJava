@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 public class SimpleGui1B implements ActionListener {
 	JButton button;
-	MyDrawPanel rectangle;
+	MyDrawPanel figures;
 
 	public static void main(String[] args) {
 		SimpleGui1B gui = new SimpleGui1B();
@@ -25,9 +25,9 @@ public class SimpleGui1B implements ActionListener {
 
 	public void goo() {
 		JFrame frame = new JFrame();
-		rectangle = new MyDrawPanel();
+		figures = new MyDrawPanel();
 
-		frame.getContentPane().add(rectangle);
+		frame.getContentPane().add(figures);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600, 600);
 		frame.setVisible(true);
