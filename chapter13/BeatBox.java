@@ -96,7 +96,7 @@ public class BeatBox {
 	}
 
 	public void buildTrackAndStart() {
-		int trackList[] = null;
+		int[] trackList = null;
 
 		sequence.deleteTrack(track);
 		track = sequence.createTrack();
@@ -109,9 +109,9 @@ public class BeatBox {
 			for (int j = 0; j < 16; j++) {
 				JCheckBox jc = checkboxList.get(j + (16 * i));
 				if (jc.isSelected()) {
-					trackList[i] = key;
+					trackList[j] = key;
 				} else {
-					trackList[i] = 0;
+					trackList[j] = 0;
 				}
 			}
 
