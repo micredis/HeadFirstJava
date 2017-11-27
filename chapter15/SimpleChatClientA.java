@@ -13,6 +13,7 @@ public class SimpleChatClientA {
 	public void go() {
 		JFrame frame = new JFrame("Ludicrously Simple Chat Client");
 		JPanel mainPanel = new JPanel();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		outgoing = new JTextField(20);
 		JButton sendButton = new JButton("Send");
 		sendButton.addActionListener(new SendButtonListener());
