@@ -56,6 +56,7 @@ public class BeatBoxFinal {
 	public void buildGUI() {
 
 		theFrame = new JFrame("Cyber BeatBox");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		BorderLayout layout = new BorderLayout();
 		JPanel background = new JPanel(layout);
 		background.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -136,6 +137,108 @@ public class BeatBoxFinal {
 		}
 	}
 
-	// see page 653
+	// Build a track by walking through the checkboxes
+	// to get their state, and mapping that to an instrument
+	// (and making the MdidEvent for it).
+	public void buildTrackAndStart() {
+		ArrayList<Integer> trackList = null; // this will hold the instruments for each...
+		sequence.delete(track);
+		sequence.createTrack();
 
+		for (int i = 0; i < 16; i++) {
+			trackList = new ArrayList<Integer>();
+			for (int j = 0; j < 16; j++) {
+				JCheckBox jc = (JCheckBox) checkboxList.get(j + (i * 16));
+				if (jc.isSelected()) {
+					int key = instruments[i];
+					trackList.add(new Integer(key));
+				} else {
+					trackList.add(null); // because this slot should be empty in the track
+				}
+			}
+			makeTracks(trackList);
+		}
+		track.add(makeEvent(192, 9, 1, 0, 15)); // - so we always go to full 16 bits
+		try {
+			sequencer.setSequence(sequence);
+			sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
+			sequencer.start();
+			sequencer.setTempoInBPM(120);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} // close buildTrackAndStart
+
+	// The GUI listeners
+
+	public class MyStartListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			buildTrackAndStart();
+		}
+	}
+
+	public class MyStopListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			sequencer.stop();
+		}
+	}
+
+	public class MyUpTempoListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			float tempoFactor = sequencer.getTempoFactor();
+			sequencer.setTempoFactor((float) (tempoFactor * 1.03));
+		}
+	}
+
+	public class MyDownTempoListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			float tempoFactor = sequencer.getTempoFactor();
+			sequencer.setTempoFactor((float) (tempoFactor * .97));
+		}
+	}
+
+	// We serialize two objects (the string message and the beat pattern)
+	// and write those two objects to the socket output stream (to the server).
+	public class MySendListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			// make an arraylist of just the STATE of the checkboxes
+			boolean[] checkboxState = new boolean[256];
+			for (int i = 0; i < 256; i++) {
+				JCheckBox check = (JCheckBox) checkboxList.get(i);
+				if (check.isSelected()) {
+					checkboxState[i] = true;
+				}
+			}
+			// The next line is probably redundant
+			String messageToSend = null;
+			try {
+				out.writeObject(userName + nextNum++ + ": " + userMessage.getText());
+				out.writeObject(checkboxState);
+			} catch (Exception ex) {
+				System.out.println("Sorry dude. Could not send it to the server.");
+			}
+			userMessage.setText("");
+		}
+	} // close MySendListener class
+
+	// A ListSelectionListener tells us when the user made a selection on the list
+	// of messages. When the user selects a message, we IMMEDIATELY load the
+	// associated beat pattern (it's in the HashMap called otherSeqsMap) and
+	// start playing it.
+	public class MyListSelectionListener implements ActionListener {
+		public void valueChanged(ListSelection le) {
+			if (!le.getValueIsAdjusting()) {
+				String selected = (String) incomingList.getSelectedValue();
+				if (selected != null) {
+					// now go to the map, and change the sequence
+					boolean[] selectedState = (boolean[]) otherSeqsMap.get(selected);
+					changeSequence(selectedState);
+					sequencer.stop();
+					buildTrackAndStart();
+				}
+			}
+		}
+	} // close MyListSelectionListener class
+
+	// see page 655
 }
