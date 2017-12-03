@@ -152,7 +152,7 @@ public class BeatBoxFinal {
 	public void buildTrackAndStart() {
 		ArrayList<Integer> trackList = null; // this will hold the instruments for each...
 		sequence.deleteTrack(track);
-		sequence.createTrack();
+		track = sequence.createTrack();
 
 		for (int i = 0; i < 16; i++) {
 			trackList = new ArrayList<Integer>();
