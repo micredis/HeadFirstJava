@@ -34,7 +34,26 @@ public class BeatBoxFinal {
 	int[] instruments = {35, 42, 46, 38, 49, 39, 50, 60, 70, 72, 64, 56, 58, 47, 67, 63};
 
 	public static void main(String[] args) {
-		new BeatBoxFinal().startUp(args[0]); // args[0] is your user ID/screen name
+		if (args.length > 0 && args[0] != null) {
+			new BeatBoxFinal().startUp(args[0]); // args[0] is your user ID/screen name
+		} else {
+			System.out.println("Please, provide your nickname: ");
+			try {
+				BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+				String nick = console.readLine();
+				if (!nick.isEmpty()) {
+					new BeatBoxFinal().startUp(nick);
+				} else {
+					System.out.println("The default nickname will be used");
+					new BeatBoxFinal().startUp("default");
+				}
+				console.close();
+			} catch (Exception ex) {
+				// System.out.println("The default nickname will be used");
+				// new BeatBoxFinal().startUp("default");
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	// Set up the networking, I/O, and make (and start) the reader thread
@@ -56,7 +75,11 @@ public class BeatBoxFinal {
 
 	public void buildGUI() {
 
-		theFrame = new JFrame("Cyber BeatBox");
+		if (!userName.isEmpty()) {
+			theFrame = new JFrame("Cyber BeatBox -- " + userName);
+		} else {
+			theFrame = new JFrame("Cyber BeatBox -- noname");
+		}
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		BorderLayout layout = new BorderLayout();
 		JPanel background = new JPanel(layout);
@@ -240,6 +263,23 @@ public class BeatBoxFinal {
 			if (!le.getValueIsAdjusting()) {
 				String selected = (String) incomingList.getSelectedValue();
 				if (selected != null) {
+					// ask if the user want to save their pattern before
+					// a pattern from the list of messages is loaded
+					JFrame saveDialogFrame = new JFrame("Save Selection");
+					saveDialogFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					BorderLayout saveLayout = new BorderLayout();
+					JPanel savePanel = new JPanel(saveLayout);
+					JButton yesButton = new JButton("Yes");
+					JButton noButton = new JButton("No");
+					//yesButton.addActionListener(new YesButtonListener());
+					//noButton.addActionListener(new NoButtonListener());
+					savePanel.add(BorderLayout.WEST, yesButton);
+					savePanel.add(BorderLayout.EAST, noButton);
+					saveDialogFrame.getContentPane().add(savePanel);
+					saveDialogFrame.setBounds(100, 100, 200, 200);
+					saveDialogFrame.pack();
+					saveDialogFrame.setVisible(true);
+
 					// now go to the map, and change the sequence
 					boolean[] selectedState = (boolean[]) otherSeqsMap.get(selected);
 					changeSequence(selectedState);
@@ -249,6 +289,29 @@ public class BeatBoxFinal {
 			}
 		}
 	} // close MyListSelectionListener class
+
+	public void saveCurrentSelections() {
+		boolean[] checkboxState = new boolean[256];
+		for (int i = 0; i < 256; i++) {
+			JCheckBox check = (JCheckBox) checkboxList.get(i);
+			if (check.isSelected()) {
+				checkboxState[i] = true;
+			}
+		}
+
+		JFileChooser fileSave = new JFileChooser();
+		fileSave.showSaveDialog(theFrame);
+		File fileToSave = fileSave.getSelectedFile();
+
+		try {
+			FileOutputStream fileStream = new FileOutputStream(fileToSave);
+			ObjectOutputStream os = new ObjectOutputStream(fileStream);
+			os.writeObject(checkboxState);
+			os.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	} // close saveCurrentSelections method
 
 	// This is the thread job -- read in data from the server.
 	// 'data' -- meaning two serialized objects: the String message
