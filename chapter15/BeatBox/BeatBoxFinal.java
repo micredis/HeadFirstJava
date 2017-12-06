@@ -265,20 +265,14 @@ public class BeatBoxFinal {
 				if (selected != null) {
 					// ask if the user want to save their pattern before
 					// a pattern from the list of messages is loaded
-					JFrame saveDialogFrame = new JFrame("Save Selection");
-					saveDialogFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					BorderLayout saveLayout = new BorderLayout();
-					JPanel savePanel = new JPanel(saveLayout);
-					JButton yesButton = new JButton("Yes");
-					JButton noButton = new JButton("No");
-					//yesButton.addActionListener(new YesButtonListener());
-					//noButton.addActionListener(new NoButtonListener());
-					savePanel.add(BorderLayout.WEST, yesButton);
-					savePanel.add(BorderLayout.EAST, noButton);
-					saveDialogFrame.getContentPane().add(savePanel);
-					saveDialogFrame.setBounds(100, 100, 200, 200);
-					saveDialogFrame.pack();
-					saveDialogFrame.setVisible(true);
+					int optionNumber = JOptionPane.showConfirmDialog(null,
+						"Do you want to save your pattern before proceeding?",
+						"Save current pattern",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+					if (optionNumber == 0) {
+						saveCurrentSelections();
+					}
 
 					// now go to the map, and change the sequence
 					boolean[] selectedState = (boolean[]) otherSeqsMap.get(selected);
@@ -290,6 +284,8 @@ public class BeatBoxFinal {
 		}
 	} // close MyListSelectionListener class
 
+	// TODO: check whether the method saves "null.ser"
+	// if in the save dialog "Cancel" option is chosen
 	public void saveCurrentSelections() {
 		boolean[] checkboxState = new boolean[256];
 		for (int i = 0; i < 256; i++) {
@@ -304,7 +300,7 @@ public class BeatBoxFinal {
 		File fileToSave = fileSave.getSelectedFile();
 
 		try {
-			FileOutputStream fileStream = new FileOutputStream(fileToSave);
+			FileOutputStream fileStream = new FileOutputStream(fileToSave + ".ser");
 			ObjectOutputStream os = new ObjectOutputStream(fileStream);
 			os.writeObject(checkboxState);
 			os.close();
