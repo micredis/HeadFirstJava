@@ -104,6 +104,10 @@ public class BeatBoxFinal {
 		downTempo.addActionListener(new MyDownTempoListener());
 		buttonBox.add(downTempo);
 
+		JButton randomPattern = new JButton("Randomize");
+		randomPattern.addActionListener(new MyRandomPatternListener());
+		buttonBox.add(randomPattern);
+
 		JButton sendIt = new JButton("Send It");
 		sendIt.addActionListener(new MySendListener());
 		buttonBox.add(sendIt);
@@ -230,6 +234,13 @@ public class BeatBoxFinal {
 		}
 	}
 
+	// Randomize checkboxes
+	public class MyRandomPatternListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+		}
+	}
+
 	// We serialize two objects (the string message and the beat pattern)
 	// and write those two objects to the socket output stream (to the server).
 	public class MySendListener implements ActionListener {
@@ -284,8 +295,6 @@ public class BeatBoxFinal {
 		}
 	} // close MyListSelectionListener class
 
-	// TODO: check whether the method saves "null.ser"
-	// if in the save dialog "Cancel" option is chosen
 	public void saveCurrentSelections() {
 		boolean[] checkboxState = new boolean[256];
 		for (int i = 0; i < 256; i++) {
@@ -298,6 +307,9 @@ public class BeatBoxFinal {
 		JFileChooser fileSave = new JFileChooser();
 		fileSave.showSaveDialog(theFrame);
 		File fileToSave = fileSave.getSelectedFile();
+
+		// if the option "Cancel" in the save dialog is chosen
+		if (fileToSave == null) return;
 
 		try {
 			FileOutputStream fileStream = new FileOutputStream(fileToSave + ".ser");
