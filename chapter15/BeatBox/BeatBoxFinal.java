@@ -104,7 +104,7 @@ public class BeatBoxFinal {
 		downTempo.addActionListener(new MyDownTempoListener());
 		buttonBox.add(downTempo);
 
-		JButton randomPattern = new JButton("Randomize");
+		JButton randomPattern = new JButton("Randomize!");
 		randomPattern.addActionListener(new MyRandomPatternListener());
 		buttonBox.add(randomPattern);
 
@@ -237,7 +237,14 @@ public class BeatBoxFinal {
 	// Randomize checkboxes
 	public class MyRandomPatternListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
-			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			boolean[] selectedState = new boolean[256];
+			for (int i = 0; i < 256; i++) {
+				boolean isSelected = (Math.random() < 0.05);
+				selectedState[i] = isSelected;
+			}
+			changeSequence(selectedState);
+			sequencer.stop();
+			buildTrackAndStart();
 		}
 	}
 
@@ -266,15 +273,15 @@ public class BeatBoxFinal {
 	} // close MySendListener class
 
 	// A ListSelectionListener tells us when the user made a selection on the list
-	// of messages. When the user selects a message, we IMMEDIATELY load the
-	// associated beat pattern (it's in the HashMap called otherSeqsMap) and
-	// start playing it.
+	// of messages. When the user selects a message, after asking them if they
+	// want to save their current pattern we load the associated beat pattern
+	// (it's in the HashMap called otherSeqsMap) and start playing it.
 	public class MyListSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent le) {
 			if (!le.getValueIsAdjusting()) {
 				String selected = (String) incomingList.getSelectedValue();
 				if (selected != null) {
-					// ask if the user want to save their pattern before
+					// ask if the user wants to save their pattern before
 					// a pattern from the list of messages is loaded
 					int optionNumber = JOptionPane.showConfirmDialog(null,
 						"Do you want to save your pattern before proceeding?",
