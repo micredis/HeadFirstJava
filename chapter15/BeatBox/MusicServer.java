@@ -44,7 +44,9 @@ public class MusicServer {
 		clientOutputStreams = new ArrayList<ObjectOutputStream>();
 
 		try {
-			ServerSocket serverSock = new ServerSocket(4242);
+			// port 4242, backlog 10 (max length of the queue of incoming connections),
+			// IP address to bind to (if null accept connections on any/all local addresses)
+			ServerSocket serverSock = new ServerSocket(4242, 10, null);
 
 			while (true) {
 				Socket clientSocket = serverSock.accept();

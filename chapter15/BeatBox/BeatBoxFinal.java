@@ -282,7 +282,7 @@ public class BeatBoxFinal {
 				saveCurrentSelections();
 			}
 
-			JFileChooser fileOpen = new JFileChooser("."); // set the current directory as a path to open
+			JFileChooser fileOpen = new JFileChooser("."); // "." sets the current directory as a path to open
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("BeatBox Patterns", "ser");
 			fileOpen.setFileFilter(filter);
 			fileOpen.showOpenDialog(theFrame);
@@ -418,7 +418,7 @@ public class BeatBoxFinal {
 			}
 		}
 
-		JFileChooser fileSave = new JFileChooser("."); // set the current directory as a path to open
+		JFileChooser fileSave = new JFileChooser("."); // "." sets the current directory as a path to open
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("BeatBox Patterns", "ser");
 		fileSave.setFileFilter(filter);
 		fileSave.showSaveDialog(theFrame);
