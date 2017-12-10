@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.*;
 import java.net.*;
 import javax.sound.midi.*;
 
@@ -104,9 +105,21 @@ public class BeatBoxFinal {
 		downTempo.addActionListener(new MyDownTempoListener());
 		buttonBox.add(downTempo);
 
+		JButton cleanCheckboxes = new JButton("Clean");
+		cleanCheckboxes.addActionListener(new MyCleanCheckBoxes());
+		buttonBox.add(cleanCheckboxes);
+
 		JButton randomPattern = new JButton("Randomize!");
 		randomPattern.addActionListener(new MyRandomPatternListener());
 		buttonBox.add(randomPattern);
+
+		JButton loadPattern = new JButton("Load");
+		loadPattern.addActionListener(new MyLoadPatternListener());
+		buttonBox.add(loadPattern);
+
+		JButton savePattern = new JButton("Save");
+		savePattern.addActionListener(new MySavePatternListener());
+		buttonBox.add(savePattern);
 
 		JButton sendIt = new JButton("Send It");
 		sendIt.addActionListener(new MySendListener());
@@ -131,7 +144,7 @@ public class BeatBoxFinal {
 		}*/
 
 		GridLayout gridNames = new GridLayout(16, 1);
-		gridNames.setVgap(1);
+		gridNames.setVgap(3);
 		gridNames.setHgap(2);
 		JPanel namePanel = new JPanel(gridNames);
 		for (int i = 0; i < 16; i++) {
@@ -143,7 +156,7 @@ public class BeatBoxFinal {
 
 		theFrame.getContentPane().add(background);
 		GridLayout grid = new GridLayout(16, 16);
-		grid.setVgap(1);
+		grid.setVgap(3);
 		grid.setHgap(2);
 		mainPanel = new JPanel(grid);
 		background.add(BorderLayout.CENTER, mainPanel);
@@ -155,7 +168,7 @@ public class BeatBoxFinal {
 			mainPanel.add(c);
 		}
 
-		theFrame.setBounds(50, 50, 300, 300);
+		theFrame.setBounds(300, 130, 350, 350);
 		theFrame.pack();
 		theFrame.setVisible(true);
 	} // close buildGUI
@@ -234,9 +247,18 @@ public class BeatBoxFinal {
 		}
 	}
 
+	public class MyCleanCheckBoxes implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			boolean[] selectedState = new boolean[256];
+			changeSequence(selectedState); // put empty (default, i.e. false) values of array into checkboxes
+			sequencer.stop();
+		}
+	}
+
 	// Randomize checkboxes
 	public class MyRandomPatternListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
+			// make an arraylist of randomly selected states of checkboxes
 			boolean[] selectedState = new boolean[256];
 			for (int i = 0; i < 256; i++) {
 				boolean isSelected = (Math.random() < 0.05);
@@ -245,6 +267,50 @@ public class BeatBoxFinal {
 			changeSequence(selectedState);
 			sequencer.stop();
 			buildTrackAndStart();
+		}
+	}
+
+	// Load saved checkboxes preset
+	public class MyLoadPatternListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			int optionNumber = JOptionPane.showConfirmDialog(null,
+						"Do you want to save the current pattern before proceeding?",
+						"Save current pattern",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+			if (optionNumber == 0) {
+				saveCurrentSelections();
+			}
+
+			JFileChooser fileOpen = new JFileChooser("."); // set the current directory as a path to open
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("BeatBox Patterns", "ser");
+			fileOpen.setFileFilter(filter);
+			fileOpen.showOpenDialog(theFrame);
+			File fileToOpen = fileOpen.getSelectedFile();
+
+			// if the option "Cancel" in the open dialog is chosen
+			if (fileToOpen == null) return;
+
+			boolean[] selectedState = null;
+
+			try {
+				FileInputStream fis = new FileInputStream(fileToOpen);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				selectedState = (boolean[]) ois.readObject();
+				ois.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+			changeSequence(selectedState);
+			sequencer.stop();
+			buildTrackAndStart();
+		}
+	}
+
+	public class MySavePatternListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			saveCurrentSelections();
 		}
 	}
 
@@ -302,32 +368,6 @@ public class BeatBoxFinal {
 		}
 	} // close MyListSelectionListener class
 
-	public void saveCurrentSelections() {
-		boolean[] checkboxState = new boolean[256];
-		for (int i = 0; i < 256; i++) {
-			JCheckBox check = (JCheckBox) checkboxList.get(i);
-			if (check.isSelected()) {
-				checkboxState[i] = true;
-			}
-		}
-
-		JFileChooser fileSave = new JFileChooser();
-		fileSave.showSaveDialog(theFrame);
-		File fileToSave = fileSave.getSelectedFile();
-
-		// if the option "Cancel" in the save dialog is chosen
-		if (fileToSave == null) return;
-
-		try {
-			FileOutputStream fileStream = new FileOutputStream(fileToSave + ".ser");
-			ObjectOutputStream os = new ObjectOutputStream(fileStream);
-			os.writeObject(checkboxState);
-			os.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	} // close saveCurrentSelections method
-
 	// This is the thread job -- read in data from the server.
 	// 'data' -- meaning two serialized objects: the String message
 	// and the beat pattern (an ArrayList of checkbox state values).
@@ -367,6 +407,40 @@ public class BeatBoxFinal {
 			}
 		}
 	}
+
+	// Save current states of checkboxes into a specified *.ser file
+	public void saveCurrentSelections() {
+		boolean[] checkboxState = new boolean[256];
+		for (int i = 0; i < 256; i++) {
+			JCheckBox check = (JCheckBox) checkboxList.get(i);
+			if (check.isSelected()) {
+				checkboxState[i] = true;
+			}
+		}
+
+		JFileChooser fileSave = new JFileChooser("."); // set the current directory as a path to open
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("BeatBox Patterns", "ser");
+		fileSave.setFileFilter(filter);
+		fileSave.showSaveDialog(theFrame);
+		File fileToSave = fileSave.getSelectedFile();
+
+		// if the option "Cancel" in the save dialog is chosen
+		if (fileToSave == null) return;
+
+		String extension = ".ser";
+		if (fileToSave.toString().endsWith(extension)) {
+			extension = "";
+		}
+
+		try {
+			FileOutputStream fileStream = new FileOutputStream(fileToSave + extension);
+			ObjectOutputStream os = new ObjectOutputStream(fileStream);
+			os.writeObject(checkboxState);
+			os.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	} // close saveCurrentSelections method
 
 	// This method is called when the user selects something
 	// from the list. We IMEDIATELY change the pattern
