@@ -47,6 +47,8 @@ public class MusicServer {
 			// port 4242, backlog 10 (max length of the queue of incoming connections),
 			// IP address to bind to (if null accept connections on any/all local addresses)
 			ServerSocket serverSock = new ServerSocket(4242, 10, null);
+			// The original line was:
+			// ServerSocket serverSock = new ServerSocket(4242);
 
 			while (true) {
 				Socket clientSocket = serverSock.accept();
