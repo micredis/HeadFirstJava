@@ -17,7 +17,7 @@ public class Jukebox3 {
 
 	void getSongs() {
 		try {
-			File file = new File("songs.txt");
+			File file = new File("songs_detailed.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = "";
 			while ((line = reader.readLine()) != null) {
