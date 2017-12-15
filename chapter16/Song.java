@@ -32,6 +32,12 @@ public class Song implements Comparable<Song> {
 	}
 
 	public int compareTo(Song s) {
+		// it's not needed to override compareTo() method
+		// to compare Song objects. We just use the realization
+		// of compareTo() method for String objects
+		// i.e. we're comparing 2 strings here:
 		return this.getTitle().compareTo(s.getTitle());
+		// or as the authors of the book say:
+		// return title.compareTo(s.getTitle());
 	}
 }
