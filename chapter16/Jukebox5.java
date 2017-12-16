@@ -3,16 +3,18 @@ import java.io.*;
 
 public class Jukebox5 {
 	private ArrayList<Song5> songList = new ArrayList<Song5>();
-	private int option;
-	private Comparator compareCriterion;
 
 	public static void main(String[] args) {
 		new Jukebox5().go();
 	}
 
 	public void go() {
+		int option = 1;
+		Comparator compareCriterion;
+		
 		System.out.println("Choose the option you'd like the list to be sorted:");
 		System.out.println("1 -- title,  2 -- artist,  3 -- rating,  4 -- bpm");
+
 		try {
 			BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 			String sOption = "";
