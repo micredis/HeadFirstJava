@@ -97,7 +97,9 @@ public class Jukebox5 {
 		public int compare(Song5 one, Song5 two) {
 			int oneBpm = Integer.valueOf(one.getBpm());
 			int twoBpm = Integer.valueOf(two.getBpm());
-			return (oneBpm < twoBpm) ? -1 : (oneBpm > twoBpm) ? 1 : 0;
+			// it would work, but a bit too wordy
+			// return (oneBpm < twoBpm) ? -1 : (oneBpm > twoBpm) ? 1 : 0;
+			return (oneBpm - twoBpm);
 		}
 	}
 
