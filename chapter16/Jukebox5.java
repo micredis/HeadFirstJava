@@ -40,7 +40,7 @@ public class Jukebox5 {
 
 		getSongs();
 		System.out.println("UNSORTED: " + songList);
-		System.out.println("------------------------------------");
+		System.out.println("----------------------------------------------");
 		// invoke sort(), passing it the list and
 		// a reference to the new custom Comparator object
 		Collections.sort(songList, compareCriterion);

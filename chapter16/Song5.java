@@ -28,6 +28,7 @@ public class Song5 {
 	}
 
 	public String toString() {
-		return "\n" + title + " : " + artist + " : " + rating + " : " + bpm;
+		// "%-15s" means 15-symbol string (s) that is left justified (-)
+		return String.format("\n%-15s : %-15s : %-2s : %-4s", title, artist, rating, bpm);
 	}
 }
