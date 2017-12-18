@@ -41,12 +41,14 @@ public class Jukebox8 {
 		}
 
 		getSongs();
-		System.out.println("UNSORTED: " + songList);
+		System.out.println("UNSORTED:                                    " + songList);
 		System.out.println("----------------------------------------------");
-		// invoke sort(), passing it the list and
-		// a reference to the new custom Comparator object
-		Collections.sort(songList, compareCriterion);
-		System.out.println("SORTED:   " + songList);
+		// Create a TreeSet of Songs5 (passing to the constructor compareCriterion).
+		// This will intrinsically arrange songs in ascending order
+		// without duplicates using specified custom Comparator.
+		TreeSet<Song5> songSet = new TreeSet<Song5>(compareCriterion);
+		songSet.addAll(songList);
+		System.out.println("SORTED. NO DUPLICATES!                       " + songSet);
 	}
 
 	void getSongs() {
