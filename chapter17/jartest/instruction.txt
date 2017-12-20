@@ -1,0 +1,46 @@
+By using the -d flag, you get to decide which directory the compile code lands in,
+rather than accepting the default of class files landing in the same directrory
+as the source code. To compile all .java files in the source directory, use:
+
+%javac -d ../classes *.java
+
+
+Making an executable JAR
+
+1
+Make sure all of your class files are in
+the classes directory
+
+
+2
+Create a manifest.txt file that states
+which class has the main() method
+
+Make a text file named manifest.txt that has a one line:
+
+Main-Class: MyApp
+(don’t put the .class on the end).
+
+Press the return key after typing the Main-Class line, or your manifest may not work
+correctly. Put the manifest file into the “classes” directory.
+
+
+3
+Run the jar tool to create a JAR file
+that contains everything in the classes
+directory, plus the manifest.
+
+%cd MiniProject/classes
+%jar -cvmf manifest.txt app1.jar *.class
+OR
+%jar -cvmf manifest.txt app1.jar MyApp.class
+
+
+
+Running (executing) the JAR
+
+%cd MyProject/classes
+
+%java -jar app1.jar
+
+
