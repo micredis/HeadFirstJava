@@ -17,6 +17,8 @@ public class TestGenerics3 {
 		dogs.add(new Dog());
 		dogs.add(new Dog());
 		takeAnimals(dogs);
+
+		takeThing(animals, dogs);
 	}
 
 	// We use a wildcard ? here to create a method argument
@@ -41,6 +43,15 @@ public class TestGenerics3 {
 			a.eat();
 		}
 	}*/
+
+	public void takeThing(ArrayList<? extends Animal> one, ArrayList<? extends Animal> two) {
+		for(Animal a : one) {
+			a.eat();
+		}
+		for(Animal b : two) {
+			b.eat();
+		}
+	}
 }
 
 class Animal {
