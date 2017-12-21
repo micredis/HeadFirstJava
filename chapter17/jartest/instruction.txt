@@ -43,4 +43,35 @@ Running (executing) the JAR
 
 %java -jar app1.jar
 
+----------------------------------------------------------------------------------------
 
+Compiling and running with packages
+
+Compiling with the -d (directory) flag:
+
+// Stay in the source directory! Do NOT cd down
+// into the directory where the .java files is!
+
+%cd MyProject/source
+
+%javac -d ../classes com/headfirstjava/PackageExercise.java
+
+To compile all the .java files in the com.headfirstjava package use:
+
+%javac -d ../classes com/headfirstjava/*.java
+
+
+Running your code
+
+%cd MyProject/classes
+
+%java com.headfirstjava.PackageExercise
+
+The -d flag tells the compiler,
+“Put the class into its package
+directory structure, using the
+class specified after the -d as
+the root directory. But... if the
+directories aren’t there, create
+them first and then put the class
+in the right place!”
