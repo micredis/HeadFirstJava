@@ -1,0 +1,48 @@
+Organize your project so that your source code and class files are not in
+the same directory.
+
+A standard organization structure is to create a project directory, and then
+put a source directory and a classes directory inside the project directory.
+
+Organizing your classes into packages prevents naming collisions with
+other classes, if you prepend your reverse domain name on to the front of
+a class name.
+
+To put a class in a package, put a package statement at the top of the
+source code file, before any import statements:
+package com.wickedlysmart;
+
+To be in a package, a class must be in a directory structure that exactly
+matches the package structure. For a class, com.wickedlysmart.Foo,
+the Foo class must be in a directory named wickedlysmart, which is in a
+directory named com.
+
+To make your compiled class land in the correct package directory
+structure under the classes directory, use the -d compiler flag:
+% cd source
+% javac -d ../classes com/wickedlysmart/Foo.java
+
+To run your code, cd to the classes directory, and give the fully-qualified
+name of your class:
+% cd classes
+% java com.wickedlysmart.Foo
+
+You can bundle your classes into JAR (Java ARchive) files. JAR is based
+on the pkzip format.
+
+You can make an executable JAR file by putting a manifest into the JAR
+that states which class has the main() method. To create a manifest file,
+make a text file with an entry like the following (for example):
+Main-Class: com.wickedlysmart.Foo
+
+Be sure you hit the return key after typing the Main-Class line, or your
+manifest file may not work.
+
+To create a JAR file, type:
+jar -cvmf manifest.txt MyJar.jar com
+
+The entire package directory structure (and only the directories matching
+the package) must be immediately inside the JAR file.
+
+To run an executable JAR file, type:
+java -jar MyJar.jar
