@@ -1,0 +1,2 @@
+The code in this folder won't work.
+The stub/skeleton approach is deprecated.
