@@ -1,0 +1,6 @@
+To compile MyServletA.java it's necessary to show a path to servlet-api.jar,
+e.g. if it's in the same folder the command would read like that:
+
+% sudo javac -cp servlet-api.jar MyServletA.java
+
+where -cp means "CLASSPATH"
