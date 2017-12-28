@@ -1,6 +1,36 @@
 To compile MyServletA.java it's necessary to show a path to servlet-api.jar,
 e.g. if it's in the same folder the command would read like that:
 
-% sudo javac -cp servlet-api.jar MyServletA.java
+% javac -cp servlet-api.jar MyServletA.java
+or
+% sudo javac -cp /opt/apache-tomcat-8.5.23/lib/servlet-api.jar
 
 where -cp means "CLASSPATH"
+
+NB: in the 2nd example the ownership of a .class file will belong to root!
+
+
+.class file could be put to tomcat's webapps folder;
+to make it simpler, I put it to the tomcat's example folder:
+/opt/apache-tomcat-8.5.23/webapps/examples/WEB-INF/classes
+
+Then I had to change web.xml:
+/opt/apache-tomcat-8.5.23/webapps/examples/WEB-INF/web.xml
+adding these lines:
+
+<servlet>
+   	<servlet-name>MyServletA</servlet-name>
+   	<servlet-class>MyServletA</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>MyServletA</servlet-name>
+    <url-pattern>/servlets/servlet/MyServletA</url-pattern>
+</servlet-mapping>
+
+After that, the tomcat can be started.
+To see the servlet working, type in the address line of a browser:
+
+localhost:8080/examples/servlets/servlet/MyServletA
+
+P.S.: Actually, link.html is not necessary if you follow the algorithm above.
