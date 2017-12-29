@@ -1,0 +1,25 @@
+To compile OMaticServlet.java successfully
+it is necessary to show the compiler
+where the servlet-api.jar is located,
+as well as where PhraseOMatic.java is:
+
+% sudo javac -cp /opt/apache-tomcat-8.5.23/lib/servlet-api.jar ~/IdeaProjects/HeadFirstJava/chapter18/PhraseOMaticServlet/PhraseOMatic.java OMaticServlet.java
+
+-cp stands for "CLASSPATH"
+
+To run the compiled classes successfully, see the instruction.txt file
+in the servletAtest directory.
+Basically, you need to copy class-files into tomcat's webapp directory:
+
+% sudo cp OMaticServlet.class PhraseOMatic.class /opt/apache-tomcat-8.5.23/webapps/examples/WEB-INF/classes
+
+then to describe servlets and mapping in this file:
+
+/opt/apache-tomcat-8.5.23/webapps/examples/WEB-INF/web.xml
+
+and then run the tomcat.
+
+
+The web-page for this example will be available at:
+
+localhost:8080/examples/servlets/servlet/OMaticServlet
