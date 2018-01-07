@@ -13,6 +13,7 @@ public class ServiceBrowser {
 		JFrame frame = new JFrame("RMI Browser");
 		mainPanel = new JPanel();
 		frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// This method does the RMI registry lookup, gets the stub,
 		// and calls getServiceList(). (The actual method is further
