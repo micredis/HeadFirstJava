@@ -36,9 +36,9 @@ public class ServiceServerImpl extends UnicastRemoteObject implements ServiceSer
 
 	public static void main(String[] args) {
 		try {
-			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("ServiceServer", new ServiceServerImpl());
-			// Naming.rebind("ServiceServer", new ServiceServerImpl());
+			//Registry registry = LocateRegistry.getRegistry();
+			//registry.bind("ServiceServer", new ServiceServerImpl());
+			Naming.rebind("ServiceServer", new ServiceServerImpl());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
