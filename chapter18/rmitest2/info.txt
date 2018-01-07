@@ -1,2 +1,6 @@
-The code in this folder won't work.
 The stub/skeleton approach is deprecated.
+
+The code in this folder works only
+if it's compiled using JDK 1.4:
+
+% javac -source 1.4 *.java
