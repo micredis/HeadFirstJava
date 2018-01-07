@@ -25,12 +25,6 @@ Thanks to work by Jon Gibbons, in JDK 7 build 121 and later javac detects and wa
 $ javac -source 6 HelloWorld.java
 <br>
 warning: [options] bootstrap class path not set in conjunction with -source 1.6
-<p>One way to address the warning is to set the
-bootclasspath
-. If that is inappropriate, the warning can be disabled with a new suboption within the
--Xlint
-family,
--Xlint:-options
-.</p>
+<p>One way to address the warning is to set the bootclasspath. If that is inappropriate, the warning can be disabled with a new suboption within the -Xlint family, -Xlint:-options.</p>
 
 With this change, a likely problematic combination of options to javac that can lead to subtle build errors are diagnosed by the compiler and can easily by either directly addressed, or documented as part of the build process via the new -Xlint suboption.
