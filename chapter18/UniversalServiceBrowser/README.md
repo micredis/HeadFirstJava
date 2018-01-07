@@ -15,7 +15,7 @@ or
 http://qaru.site/questions/963/how-to-fix-javalangunsupportedclassversionerror-unsupported-majorminor-version
 
 <H1>javac warning for setting an older source without bootclasspath</H1>
-<b>By: Joe Darcy</b>
+<p>By: Joe Darcy</p>
 <p>To use <b>javac</b> from JDK N to cross-compiler to an older platform version, the correct practice is to:<br>
 Use the older <b>-source</b> setting. Set the bootclasspath to compile against the rt.jar (or equivalent) for the older platform. If the second step is not taken, javac will dutifully use the old language rules combined with new libraries, which can result in class files that do not work on the older platform since references to non-existent methods can get included.
 
