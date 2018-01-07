@@ -1,9 +1,9 @@
-The approach that is considered in this chapter is obsolete.
+<H3>The approach that is considered in this chapter is obsolete.</H3>
 
 To avoid java.lang.UnsupportedClassVersionError
 the files could be compiled using -source parameter:
 
-% javac -source 1.4 *.java
+<b>% javac -source 1.4 *.java</b>
 
 (here the version of JDK 1.4 is deliberately chosen
 to avoid errors while attempting to run).
@@ -14,7 +14,7 @@ https://blogs.oracle.com/darcy/new-javac-warning-for-setting-an-older-source-wit
 or
 http://qaru.site/questions/963/how-to-fix-javalangunsupportedclassversionerror-unsupported-majorminor-version
 
-*javac warning for setting an older source without bootclasspath*
+<H1>javac warning for setting an older source without bootclasspath</H1>
 By: Joe Darcy
 To use
 javac
