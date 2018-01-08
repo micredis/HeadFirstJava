@@ -23,8 +23,10 @@ as the source code. To compile all .java files in the source directory, use:
   <br>OR
   <br><b>% jar -cvmf manifest.txt app1.jar MyApp.class</b>
   <br>
-  Running (executing) the JAR
-
+  <br>
+  Running (executing) the JAR:
+  <br>
+  
   <b>% cd MyProject/classes</b>
 
   <b>% java -jar app1.jar</b></li>
