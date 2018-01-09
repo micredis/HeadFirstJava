@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 // import java.io.*;
+import java.awt.*;
 
 public class DiceService implements Service {
 
@@ -19,9 +20,11 @@ public class DiceService implements Service {
 		numOfDice = new JComboBox(choices);
 		label = new JLabel("dice values here");
 		button.addActionListener(new RollEmListener());
+		//DiceDrawPanel diceDrawPanel = new DiceDrawPanel();
 		panel.add(numOfDice);
 		panel.add(button);
 		panel.add(label);
+		//panel.add(BorderLayout.SOUTH, diceDrawPanel);
 		return panel;
 	}
 
@@ -38,4 +41,12 @@ public class DiceService implements Service {
 			label.setText(diceOutput);
 		}
 	}
+
+	// class for painting dices
+	/*class DiceDrawPanel extends JPanel {
+		public void paintComponent(Graphics g) {
+			g.setColor(Color.BLACK);
+			g.drawRect(70, 70, 100, 100);
+		}
+	}*/
 }
