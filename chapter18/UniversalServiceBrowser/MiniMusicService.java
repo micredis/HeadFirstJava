@@ -31,17 +31,19 @@ public class MiniMusicService implements Service {
 				Track track = seq.createTrack();
 
 				for (int i = 0; i < 100; i += 4) {
-					int rNum = (int) ((Math.random() * 50) + 1);
-					if (rNum < 38) {	// so now only do it if num < 38 (75% of the time)
-						track.add(makeEvent(144, 1, rNum, 100, i));
-						track.add(makeEvent(176, 1, 127, 0, i));
-						track.add(makeEvent(128, 1, rNum, 100, i + 2));
+					int rNum = (int) (Math.random() * (80 - 30) + 30); // pitch
+					int freq = (int) (Math.random() * 100); // how often should notes be played
+					if (freq < 75) {	// so now only do it 75% of the time
+						track.add(makeEvent(ShortMessage.CONTROL_CHANGE, 1, 127, 0, i)); // track.add(makeEvent(144, 1, rNum, 100, i));
+						track.add(makeEvent(ShortMessage.NOTE_ON, 1, rNum, 100, i)); // track.add(makeEvent(176, 1, 127, 0, i));
+						track.add(makeEvent(ShortMessage.NOTE_OFF, 1, rNum, 100, i + 2)); // track.add(makeEvent(128, 1, rNum, 100, i + 2));
 					}
 				}
 
 				sequencer.setSequence(seq);
 				sequencer.start();
 				sequencer.setTempoInBPM(220);
+
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -85,8 +87,8 @@ public class MiniMusicService implements Service {
 				int ht = (int) ((Math.random() * 120) + 10);
 				int width = (int) ((Math.random() * 120) + 10);
 
-				int x = (int) ((Math.random() * 40) + 10);
-				int y = (int) ((Math.random() * 40) + 10);
+				int x = (int) ((Math.random() * 170) + 10);
+				int y = (int) ((Math.random() * 170) + 10);
 
 				g.fillRect(x, y, ht, width);
 				msg = false;
