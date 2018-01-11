@@ -7,6 +7,7 @@ public class DiceService implements Service {
 
 	JLabel label;
 	JComboBox numOfDice;
+	DiceDrawPanel diceDrawPanel;
 
 	// Here's the one important method! The method of the
 	// Service interface--the one the client's gonna call when
@@ -20,11 +21,11 @@ public class DiceService implements Service {
 		numOfDice = new JComboBox(choices);
 		label = new JLabel("dice values here");
 		button.addActionListener(new RollEmListener());
-		//DiceDrawPanel diceDrawPanel = new DiceDrawPanel();
+		diceDrawPanel = new DiceDrawPanel();
 		panel.add(numOfDice);
 		panel.add(button);
 		panel.add(label);
-		//panel.add(BorderLayout.SOUTH, diceDrawPanel);
+		panel.add(BorderLayout.SOUTH, diceDrawPanel);
 		return panel;
 	}
 
@@ -43,10 +44,14 @@ public class DiceService implements Service {
 	}
 
 	// class for painting dices
-	/*class DiceDrawPanel extends JPanel {
+	class DiceDrawPanel extends JPanel {
+		public Dimension getPreferredSize() {
+			return new Dimension(300, 300);
+		}
+
 		public void paintComponent(Graphics g) {
 			g.setColor(Color.BLACK);
 			g.drawRect(70, 70, 100, 100);
 		}
-	}*/
+	}
 }
