@@ -50,7 +50,7 @@ public class DiceService implements Service {
 				diceOutput += (" " + r);
 				diceDrawPanel = new DiceDrawPanel(x, y, 70, 70, r);
 				panel.add(BorderLayout.SOUTH, diceDrawPanel);
-				if (x < 180) {
+				if (x < 170) {
 					x += 80;
 				} else {
 					x = 20;
@@ -87,6 +87,8 @@ public class DiceService implements Service {
 
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;
+
+			// paint blue square
 			g2.setColor(Color.BLUE);
 			g2.fillRect(x, y, wd, ht);
 			//g2.fillRect( 20,  20, 70, 70);
@@ -95,8 +97,40 @@ public class DiceService implements Service {
 			//g2.fillRect( 20, 100, 70, 70);
 			//g2.fillRect(100, 100, 70, 70);
 
+			// paint white dot(s)
 			g2.setColor(Color.WHITE);
-			g2.fillOval(x + 15, y + 15, 10, 10);
+			switch(nmbr) {
+				case 1: g2.fillOval(x + 30, y + 30, 10, 10);
+						break;
+				case 2: g2.fillOval(x + 15, y + 15, 10, 10);
+						g2.fillOval(x + 45, y + 45, 10, 10);
+						break;
+				case 3: g2.fillOval(x + 15, y + 15, 10, 10);
+						g2.fillOval(x + 30, y + 30, 10, 10);
+						g2.fillOval(x + 45, y + 45, 10, 10);
+						break;
+				case 4: g2.fillOval(x + 15, y + 15, 10, 10);
+						g2.fillOval(x + 45, y + 15, 10, 10);
+						g2.fillOval(x + 15, y + 45, 10, 10);
+						g2.fillOval(x + 45, y + 45, 10, 10);
+						break;
+				case 5: g2.fillOval(x + 15, y + 15, 10, 10);
+						g2.fillOval(x + 45, y + 15, 10, 10);
+						g2.fillOval(x + 15, y + 45, 10, 10);
+						g2.fillOval(x + 45, y + 45, 10, 10);
+						g2.fillOval(x + 30, y + 30, 10, 10);
+						break;
+				case 6: g2.fillOval(x + 15, y + 15, 10, 10);
+						g2.fillOval(x + 30, y + 15, 10, 10);
+						g2.fillOval(x + 45, y + 15, 10, 10);
+						g2.fillOval(x + 15, y + 45, 10, 10);
+						g2.fillOval(x + 30, y + 45, 10, 10);
+						g2.fillOval(x + 45, y + 45, 10, 10);
+						break;
+				default:break;
+			}
+			//g2.fillOval(x + 15, y + 15, 10, 10);
+
 			//g2.fillOval(35, 35, 10, 10);
 			//g2.fillOval(65, 35, 10, 10);
 			//g2.fillOval(35, 65, 10, 10);
