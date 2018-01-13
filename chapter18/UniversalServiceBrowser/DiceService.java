@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.event.*;
-// import java.io.*;
 import java.awt.*;
 
 public class DiceService implements Service {
@@ -39,46 +38,36 @@ public class DiceService implements Service {
 	class RollEmListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// roll the dice
-			DiceDrawPanel diceDrawPanel;
-			int x = 20;
-			int y = 20;
 			String diceOutput = "";
 			String selection = (String) numOfDice.getSelectedItem();
 			int numOfDiceToRoll = Integer.parseInt(selection);
+			int[] dices = new int[numOfDiceToRoll];
 			for (int i = 0; i < numOfDiceToRoll; i++) {
 				int r = (int) ((Math.random() * 6) + 1);
+				dices[i] = r;
 				diceOutput += (" " + r);
-				diceDrawPanel = new DiceDrawPanel(x, y, 70, 70, r);
-				panel.add(BorderLayout.SOUTH, diceDrawPanel);
-				if (x < 170) {
-					x += 80;
-				} else {
-					x = 20;
-					y += 80;
-				}
 			}
 			label.setText(diceOutput);
+			DiceDrawPanel diceDrawPanel = new DiceDrawPanel(20, 90, 70, 70, dices);
+			panel.add(BorderLayout.SOUTH, diceDrawPanel);
 		}
 	}
 
 	// class for painting dices
 	class DiceDrawPanel extends JPanel {
 
-		private int x = 0;
-		private int y = 0;
-		private int wd = 0;
-		private int ht = 0;
-		private int nmbr = 0;
+		private int x = 0;  // x position of the first (upper leftmost) dice
+		private int y = 0;  // y position of the first (upper leftmost) dice
+		private int wd = 0; // width of any dice
+		private int ht = 0; // height of any dice
+		private int[] dices = null;
 
-		public DiceDrawPanel() {
-		}
-
-		public DiceDrawPanel(int x, int y, int wd, int ht, int nmbr) {
+		public DiceDrawPanel(int x, int y, int wd, int ht, int[] dices) {
 			this.x = x;
 			this.y = y;
 			this.wd = wd;
 			this.ht = ht;
-			this.nmbr = nmbr;
+			this.dices = dices;
 		}
 
 		public Dimension getPreferredSize() {
@@ -88,54 +77,57 @@ public class DiceService implements Service {
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;
 
-			// paint blue square
-			g2.setColor(Color.BLUE);
-			g2.fillRect(x, y, wd, ht);
-			//g2.fillRect( 20,  20, 70, 70);
-			//g2.fillRect(100,  20, 70, 70);
-			//g2.fillRect(180,  20, 70, 70);
-			//g2.fillRect( 20, 100, 70, 70);
-			//g2.fillRect(100, 100, 70, 70);
+			// return a background color for clearing a region
+			// from a previous tossing results
+			g2.setColor(g2.getBackground());
+			g2.fillRect(0, 0, 300, 300);
 
-			// paint white dot(s)
-			g2.setColor(Color.WHITE);
-			switch(nmbr) {
-				case 1: g2.fillOval(x + 30, y + 30, 10, 10);
-						break;
-				case 2: g2.fillOval(x + 15, y + 15, 10, 10);
-						g2.fillOval(x + 45, y + 45, 10, 10);
-						break;
-				case 3: g2.fillOval(x + 15, y + 15, 10, 10);
-						g2.fillOval(x + 30, y + 30, 10, 10);
-						g2.fillOval(x + 45, y + 45, 10, 10);
-						break;
-				case 4: g2.fillOval(x + 15, y + 15, 10, 10);
-						g2.fillOval(x + 45, y + 15, 10, 10);
-						g2.fillOval(x + 15, y + 45, 10, 10);
-						g2.fillOval(x + 45, y + 45, 10, 10);
-						break;
-				case 5: g2.fillOval(x + 15, y + 15, 10, 10);
-						g2.fillOval(x + 45, y + 15, 10, 10);
-						g2.fillOval(x + 15, y + 45, 10, 10);
-						g2.fillOval(x + 45, y + 45, 10, 10);
-						g2.fillOval(x + 30, y + 30, 10, 10);
-						break;
-				case 6: g2.fillOval(x + 15, y + 15, 10, 10);
-						g2.fillOval(x + 30, y + 15, 10, 10);
-						g2.fillOval(x + 45, y + 15, 10, 10);
-						g2.fillOval(x + 15, y + 45, 10, 10);
-						g2.fillOval(x + 30, y + 45, 10, 10);
-						g2.fillOval(x + 45, y + 45, 10, 10);
-						break;
-				default:break;
+			for (int i = 0; i < dices.length; i++) {
+				// paint blue square
+				g2.setColor(Color.BLUE);
+				g2.fillRect(x, y, wd, ht);
+
+				// paint white dot(s)
+				g2.setColor(Color.WHITE);
+				switch(dices[i]) {
+					case 1: g2.fillOval(x + 30, y + 30, 10, 10);
+							break;
+					case 2: g2.fillOval(x + 15, y + 15, 10, 10);
+							g2.fillOval(x + 45, y + 45, 10, 10);
+							break;
+					case 3: g2.fillOval(x + 15, y + 15, 10, 10);
+							g2.fillOval(x + 30, y + 30, 10, 10);
+							g2.fillOval(x + 45, y + 45, 10, 10);
+							break;
+					case 4: g2.fillOval(x + 15, y + 15, 10, 10);
+							g2.fillOval(x + 45, y + 15, 10, 10);
+							g2.fillOval(x + 15, y + 45, 10, 10);
+							g2.fillOval(x + 45, y + 45, 10, 10);
+							break;
+					case 5: g2.fillOval(x + 15, y + 15, 10, 10);
+							g2.fillOval(x + 45, y + 15, 10, 10);
+							g2.fillOval(x + 15, y + 45, 10, 10);
+							g2.fillOval(x + 45, y + 45, 10, 10);
+							g2.fillOval(x + 30, y + 30, 10, 10);
+							break;
+					case 6: g2.fillOval(x + 15, y + 15, 10, 10);
+							g2.fillOval(x + 30, y + 15, 10, 10);
+							g2.fillOval(x + 45, y + 15, 10, 10);
+							g2.fillOval(x + 15, y + 45, 10, 10);
+							g2.fillOval(x + 30, y + 45, 10, 10);
+							g2.fillOval(x + 45, y + 45, 10, 10);
+							break;
+					default:break;
+				}
+
+				// find coordinates where to put the next square
+				if (x < 170) {
+					x += 80;
+				} else {
+					x = 20;
+					y += 80;
+				}
 			}
-			//g2.fillOval(x + 15, y + 15, 10, 10);
-
-			//g2.fillOval(35, 35, 10, 10);
-			//g2.fillOval(65, 35, 10, 10);
-			//g2.fillOval(35, 65, 10, 10);
-			//g2.fillOval(65, 65, 10, 10);
-			//g2.fillOval(50, 50, 10, 10);
 		}
 	}
 }
