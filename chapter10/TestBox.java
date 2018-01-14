@@ -8,7 +8,7 @@ public class TestBox {
 	}
 
 	public void go() {
-		j = i; // throws NullPointerException (since i is not defined and its default value null cannon be assigned to int j)
+		j = i; // throws NullPointerException (since i is not defined and its default value null cannot be assigned to int j)
 		System.out.println(j);
 		System.out.println(i);
 		
