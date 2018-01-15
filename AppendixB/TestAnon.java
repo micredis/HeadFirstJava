@@ -5,6 +5,7 @@ import javax.swing.*;
 
 public class TestAnon {
 	JFrame frame;
+	JPanel panel;
 	JButton button;
 
 	public static void main(String[] args) {
@@ -16,9 +17,16 @@ public class TestAnon {
 		// need to register an action listener with the button.
 		// Except we never made a class that implements the
 		// ActionListener interface...
-		frame = new JFrame();
+		frame = new JFrame("Button's Anonymous Listener Tester");
+		panel = new JPanel();
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		button = new JButton("click");
-		frame.getContentPane().add(button);
+		panel.add(button);
+		frame.getContentPane().add(panel);
+		frame.setSize(320, 70);
+		frame.setVisible(true);
 		// Normally we'd do something like this--passing in
 		// a reference to an instance of an inner class... an
 		// inner class that implements ActionListener (and
