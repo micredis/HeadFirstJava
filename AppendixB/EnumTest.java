@@ -21,7 +21,7 @@ public class EnumTest {
 		}
 		// It'll print: "go deep Cassidy! " (everything after the case PHIL,
 		// i.e. case PHIL + case BOBBY). To print only the line that corresponds
-		// to the one particular name, the words "break" must be put after each
+		// to the one particular name, the words "break;" must be put after each
 		// "case"-line.
 	}
 }
